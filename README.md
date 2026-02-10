@@ -1,2 +1,2 @@
-# previsao-consumo-energia
+# EnergIA
 Repositório criado para desenvolvimento do projeto da cadeira de Inteligencia Artificial 
