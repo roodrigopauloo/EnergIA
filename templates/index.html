@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Previsão de Consumo de Energia</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>🔌 Previsão de Consumo</h1>
+
+        <form method="POST">
+            <input type="number" step="any" name="num_moradores" placeholder="Número de moradores" required>
+            <input type="number" step="any" name="area_m2" placeholder="Área da casa (m²)" required>
+            <input type="number" step="any" name="temperatura_media" placeholder="Temperatura média (°C)" required>
+            <input type="number" step="any" name="renda_familiar" placeholder="Renda familiar" required>
+            <input type="number" step="any" name="equipamentos_eletro" placeholder="Qtd. equipamentos elétricos"
+                required>
+            <input type="number" step="any" name="potencia_total_equipamentos" placeholder="Potência total (W)"
+                required>
+
+            <select name="uso_ar_condicionado" required>
+                <option value="1">Com ar-condicionado</option>
+                <option value="0">Sem ar-condicionado</option>
+            </select>
+
+            <select name="tipo_construcao" required>
+                <option value="1">Casa</option>
+                <option value="0">Apartamento</option>
+            </select>
+
+            <button type="submit">Calcular</button>
+        </form>
+    </div>
+
+    {% if resultado %}
+    <div id="resultadoModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Resultado da Simulação</h2>
+            <p><strong>Consumo estimado:</strong> {{ resultado }} kWh</p>
+            <p><strong>Classificação:</strong> {{ classe }}</p>
+        </div>
+    </div>
+    {% endif %}
+
+    <script>
+        const modal = document.getElementById("resultadoModal");
+        if (modal) {
+            const span = document.querySelector(".close");
+            span.onclick = function () {
+                modal.style.display = "none";
+            };
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            };
+        }
+    </script>
+</body>
+
+</html>

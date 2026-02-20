@@ -1,11 +1,13 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import joblib
+
 from sklearn.neural_network import MLPRegressor
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import r2_score, mean_absolute_error
-from loader_data import load_csv
+from src.loader_data import load_csv
 
 # PREPARAÇÃO DOS DADOS (Limpeza e Engenharia)
 def preparar_dados(df):
@@ -100,7 +102,7 @@ def treinar_pipeline_completo():
     
     # 2. Preparar Dados
     X, y = preparar_dados(df_raw)
-    
+        
     # 3. Treinar Modelo (usa a função interna)
     modelo_mlp, scaler = treinar_modelo(X, y)
     
@@ -134,6 +136,10 @@ def prever_nova_casa(modelo, scaler, dados_casa):
 
 #deixar apenas para testar a classe
 if __name__ == "__main__":
+    import joblib
+    import os
+
+# Salvar modelo e scaler juntos
     try:
         # 1. Carregar
         df_raw = load_csv()
@@ -150,5 +156,8 @@ if __name__ == "__main__":
         # 5. Avaliar
         y_pred, r2_final = avaliar_modelo(modelo_mlp, scaler_treinado, X_test, y_test)
 
+        joblib.dump((modelo_mlp, scaler_treinado), "model/modelo_regressao.pkl")
+        print("Modelo salvo em model/modelo_regressao.pkl")
+    
     except Exception as e:
         print(f"Ocorreu um erro crítico na execução: {e}")
